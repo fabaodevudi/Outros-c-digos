@@ -1,0 +1,106 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>Gestão de Usuários</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <div>
+      <form [formGroup]="form" id="formFiltroPerfis">
+        <div fxLayout="row" fxLayoutAlign="space-between start" fxLayoutGap="5px">
+
+          <div fxLayout="column" fxLayoutAlign="space-between start" fxFlex="70">
+            <mat-form-field appearance="outline" color="primary">
+              <mat-label>Nome</mat-label>
+              <input type="text" matInput placeholder="Nome" formControlName="name" id="name" />
+              <mat-icon matSuffix>filter_list</mat-icon>
+            </mat-form-field>
+            <mat-form-field appearance="outline" color="primary">
+              <mat-label>Login</mat-label>
+              <input type="text" matInput placeholder="Login" formControlName="login" id="loginPerfis" />
+              <mat-icon matSuffix>filter_list</mat-icon>
+            </mat-form-field>
+            <mat-form-field appearance="outline" color="primary">
+              <mat-label>Serventia Visualização</mat-label>
+              <input 
+                  type="text" 
+                  matInput                                          
+                  id="serventiaV"                  
+                  [matAutocomplete]="autoV"
+                  [formControl]="serventiaV"
+              />
+              <mat-icon matSuffix>filter_list</mat-icon>
+              <mat-autocomplete #autoV="matAutocomplete" [displayWith]="formatarServentia">
+                  <mat-option *ngFor="let s of filtroServentiasV | async" [value]="s">
+                    {{ s.serventia }}
+                  </mat-option>
+              </mat-autocomplete>
+                         
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" color="primary">
+              <mat-label>Serventia Análise/Revisão</mat-label>
+              <input 
+                  type="text" 
+                  matInput                                          
+                  id="serventiaE"
+                  [matAutocomplete]="autoE"
+                  [formControl]="serventiaE"
+              />
+              <mat-icon matSuffix>filter_list</mat-icon>
+              <mat-autocomplete #autoE="matAutocomplete" [displayWith]="formatarServentia">
+                  <mat-option *ngFor="let s of filtroServentiasE | async" [value]="s">
+                    {{ s.serventia }}
+                  </mat-option>
+              </mat-autocomplete>                         
+            </mat-form-field>
+          </div>
+
+          <div fxLayout="column" fxLayoutAlign="space-between start" fxLayoutGap="5px" fxFlex="30">
+            <mat-card class="example-card">
+              <mat-card-header>
+                <mat-card-subtitle>Perfil</mat-card-subtitle>
+              </mat-card-header>
+              <mat-card-content>
+                <mat-selection-list  formControlName="perfil">
+                  <mat-list-option *ngFor="let perf of listaPerfil" [value]="perf.nome">
+                    {{perf.nome}}
+                  </mat-list-option>
+                </mat-selection-list>
+              </mat-card-content>
+            </mat-card>
+          </div>
+        </div>
+      </form>
+    </div>
+    <mat-table [dataSource]="listaData" matSort>
+      <!-- ID Column -->
+      <ng-container matColumnDef="name">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>Nome</mat-header-cell>
+        <mat-cell *matCellDef="let row">{{row.name | titlecase}}</mat-cell>
+      </ng-container>
+
+      <!-- Nome Column -->
+      <ng-container matColumnDef="login">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>Login</mat-header-cell>
+        <mat-cell *matCellDef="let row">{{row.login | lowercase}}</mat-cell>
+      </ng-container>
+
+      <!-- Acoes Column -->]
+      <ng-container matColumnDef="editar">
+        <mat-header-cell *matHeaderCellDef>Ações</mat-header-cell>
+        <mat-cell *matCellDef="let row">
+          <button mat-icon-button (click)="editaPerfil(row)">
+            <mat-icon matTooltip="Alterar Perfil">edit</mat-icon>
+          </button>
+        </mat-cell>
+      </ng-container>
+
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    </mat-table>    
+    <div *ngIf="!isRegistros() && listaData">
+      <p>Nenhum usuário encontrado!</p>
+    </div>
+    <mat-paginator [pageSizeOptions]="[5, 10, 15]" showFirstLastButtons></mat-paginator>      
+  </mat-card-content>  
+  <ngx-ui-loader [loaderId]="'loaderPerfis'"></ngx-ui-loader>
+</mat-card>

@@ -1,0 +1,59 @@
+.mat-table, .mat-form-field {
+  width: 100%;
+}
+
+.sit-button {
+  width: 100%;
+}
+
+.sit-yellow {
+  background-color: rgb(252, 212, 52);
+  color: #FFFFFF;
+}
+
+.sit-red {
+  background-color: rgb(160, 37, 37);
+  color: #FFFFFF
+}
+
+.sit-green {
+  background-color: rgb(19, 126, 19);
+  color: #FFFFFF
+}
+
+.sit-default {
+  background-color: rgb(207, 204, 204);
+  color: #000000
+}
+
+td.mat-cell:first-of-type, td.mat-cell:last-of-type  {
+  padding: 0;
+}
+
+.mat-column-name {
+  flex: 0 0 50% !important;
+  justify-content:left;
+}
+
+.mat-column-login {
+  flex: 0 0 40% !important;
+  justify-content:left;
+}
+
+.mat-column-editar {
+  flex: 0 0 10% !important;
+  justify-content:left;
+}
+
+.mat-list-option {
+  height: 30px;
+}
+
+.mat-card {
+  width: 90%;
+  height: 100%;
+}
+
+.mat-card-subtitle {
+  margin-bottom: 0px;
+}

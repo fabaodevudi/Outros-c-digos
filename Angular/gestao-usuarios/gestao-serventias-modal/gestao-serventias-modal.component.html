@@ -1,0 +1,125 @@
+<h2 mat-dialog-title>{{ "Gestão de Serventias" }}</h2>
+<mat-dialog-content>
+  <form [formGroup]="form" id="formGestaoServentias">
+    <div fxLayout="row" fxLayoutAlign="space-between">
+      <mat-form-field>
+        <mat-label>Nome</mat-label>
+        <input matInput class="nome" placeholder="Nome" formControlName="name" id="nomeServentia" />
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Login</mat-label>
+        <input matInput class="login" placeholder="Login" formControlName="login" id="loginServentias" />
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Perfil</mat-label>
+        <input matInput class="perfil" placeholder="Perfil" formControlName="perfil" id="perfil" />
+      </mat-form-field>
+    </div>
+
+    <div fxLayout="row" fxLayoutAlign="space-between">
+      <mat-form-field color="primary" fxFlex="60">
+        <mat-label>Serventia</mat-label>
+        <input type="text" matInput formControlName="serventia" id="serventias" />
+        <mat-icon matSuffix>filter_list</mat-icon>
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Titular</mat-label>
+        <mat-select id="titular" formControlName="titular">
+          <mat-option *ngFor="let titular of titular" [value]="titular.value">
+            {{titular.viewValue}}
+          </mat-option>
+        </mat-select>
+        <mat-icon matSuffix>filter_list</mat-icon>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Interino</mat-label>
+        <mat-select id="interino" formControlName="interino">
+          <mat-option *ngFor="let interino of interino" [value]="interino.value">
+            {{interino.viewValue}}
+          </mat-option>
+        </mat-select>
+        <mat-icon matSuffix>filter_list</mat-icon>
+      </mat-form-field>
+    </div>
+  </form>
+  <div class="mat-elevation-z8">
+    <mat-table [dataSource]="dataSource" matSort>
+
+      <ng-container matColumnDef="razaoSocial">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>Serventia</mat-header-cell>
+        <mat-cell *matCellDef="let row">{{row.razaoSocial}}</mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="TV">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>
+          <mat-checkbox (change)="$event ? masterToggle(0) : null"
+            [checked]="selectionTV.hasValue() && isAllSelected(0)"
+            [indeterminate]="selectionTV.hasValue() && !isAllSelected(0)">
+            Titular Visualização
+          </mat-checkbox>
+        </mat-header-cell>
+        <mat-cell *matCellDef="let row">
+          <mat-checkbox (click)="$event.stopPropagation()" (change)="toggle(0,row)"
+            [checked]="selectionTV.isSelected(row)">
+          </mat-checkbox>
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="TA">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>
+          <mat-checkbox (change)="$event ? masterToggle(1) : null"
+            [checked]="selectionTA.hasValue() && isAllSelected(1)"
+            [indeterminate]="selectionTA.hasValue() && !isAllSelected(1)">
+            {{tLabel}}
+          </mat-checkbox>
+        </mat-header-cell>
+        <mat-cell *matCellDef="let row">
+          <mat-checkbox (click)="$event.stopPropagation()" (change)="toggle(1,row)"
+            [checked]="selectionTA.isSelected(row)">
+          </mat-checkbox>
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="IV">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>
+          <mat-checkbox (change)="$event ? masterToggle(2) : null"
+            [checked]="selectionIV.hasValue() && isAllSelected(2)"
+            [indeterminate]="selectionIV.hasValue() && !isAllSelected(2)">
+            Interino Visualização
+          </mat-checkbox>
+        </mat-header-cell>
+        <mat-cell *matCellDef="let row">
+          <mat-checkbox (click)="$event.stopPropagation()" (change)="toggle(2,row)"
+            [checked]="selectionIV.isSelected(row)">
+          </mat-checkbox>
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="IA">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>
+          <mat-checkbox (change)="$event ? masterToggle(3) : null"
+            [checked]="selectionIA.hasValue() && isAllSelected(3)"
+            [indeterminate]="selectionIA.hasValue() && !isAllSelected(3)">
+            {{iLabel}}
+          </mat-checkbox>
+        </mat-header-cell>
+        <mat-cell *matCellDef="let row">
+          <mat-checkbox (click)="$event.stopPropagation()" (change)="toggle(3,row)"
+            [checked]="selectionIA.isSelected(row)">
+          </mat-checkbox>
+        </mat-cell>
+      </ng-container>
+
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+
+    </mat-table>
+    <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+  </div>
+
+</mat-dialog-content>
+<mat-dialog-actions fxLayoutAlign="end start" fxLayoutGap="10px">
+  <button mat-stroked-button color="primary" (click)="cancelar()" id="cancelar">Cancelar</button>
+  <button mat-stroked-button color="primary" (click)="salvar()" id="salvar">Salvar</button>
+</mat-dialog-actions>

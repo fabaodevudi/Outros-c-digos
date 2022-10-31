@@ -1,0 +1,56 @@
+<h2 mat-dialog-title>Gestão de Perfis</h2>
+<mat-dialog-content>
+  <form [formGroup]="form" id="formGestaoPerfis">
+    <div fxLayout="row" fxLayoutAlign="space-between">
+      <mat-form-field>
+        <mat-label>Nome</mat-label>
+        <input matInput class="nome" placeholder="Nome" formControlName="name" />
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Login</mat-label>
+        <input matInput class="login" placeholder="Login" formControlName="login" />
+      </mat-form-field>
+    </div>
+    <div class="mat-elevation-z8">
+      <mat-table [dataSource]="dataSource">
+
+        <ng-container matColumnDef="perfil">
+          <mat-header-cell *matHeaderCellDef>Perfil</mat-header-cell>
+          <mat-cell *matCellDef="let row">{{row.nome}}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="select">
+          <mat-header-cell *matHeaderCellDef>Conceder Perfil</mat-header-cell>
+          <mat-cell *matCellDef="let row">
+            <mat-checkbox (click)="$event.stopPropagation()" (change)="toggle(row)"
+              [checked]="selection.isSelected(row)" [aria-label]="checkboxLabel(row)"
+              [disabled]="row.nome === 'Administrador (DITIC)'">
+            </mat-checkbox>
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="acoes">
+          <mat-header-cell *matHeaderCellDef>Ações</mat-header-cell>
+          <mat-cell *matCellDef="let row">
+            <div *ngIf="row.nome === 'Analista de Contas' || row.nome === 'Revisor'">
+              <button matTooltip="Alterar Serventia" mat-icon-button (click)="editPerfilServentia(row)" [disabled]="!selection.isSelected(row)">
+                <mat-icon>edit</mat-icon>
+              </button>
+            </div>
+          </mat-cell>
+        </ng-container>
+
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+
+      </mat-table>
+      <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+
+    </div>
+    <ngx-ui-loader [loaderId]="'loaderListPerfis'"></ngx-ui-loader>
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions fxLayoutAlign="end start" fxLayoutGap="10px">
+  <button mat-stroked-button color="primary" (click)="cancelar()" id="cancelar" >Cancelar</button>
+  <button mat-stroked-button color="primary" (click)="salvar()" id="salvar"  [disabled]="!isSave">Salvar</button>
+</mat-dialog-actions>
