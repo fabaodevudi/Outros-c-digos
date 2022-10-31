@@ -1,0 +1,171 @@
+<h2 mat-dialog-title>Detalhes do Contrato</h2>
+<mat-divider></mat-divider>
+<mat-dialog-content>
+    <div class="step-content">
+        <mat-tab-group mat-stretch-tabs>
+            <mat-tab label="Contrato" style="padding-top: 10px">
+                <div fxLayout="column" fxLayoutAlign="space-between" style="padding-top: 10px">
+                    <div fxLayout="row" fxLayoutGap="10px">
+                        <mat-form-field fxFlex="25">
+                            <mat-label>Situação</mat-label>
+                            <input matInput placeholder="situacao" [value]="getSituacao()" disabled />
+                        </mat-form-field>
+                        <mat-form-field fxFlex="25">
+                            <mat-label>Grupo</mat-label>
+                            <input matInput id="grupo" [value]="grupo" disabled />
+                        </mat-form-field>
+                        <mat-form-field fxFlex="25">
+                            <mat-label>Subgrupo</mat-label>
+                            <input matInput id="subgrupo" [value]="subgrupo" disabled />
+                        </mat-form-field>
+                        <mat-form-field fxFlex="25">
+                            <mat-label>Despesa</mat-label>
+                            <input matInput id="despesa" [value]="despesa" disabled />
+                        </mat-form-field>
+                    </div>
+
+                    <div fxLayout="row" fxLayoutGap="10px">
+                        <mat-form-field fxFlex="70">
+                            <mat-label>Identificador</mat-label>
+                            <input matInput placeholder="Identificador" [value]="contrato.identificador" disabled />
+                        </mat-form-field>
+                        <mat-form-field fxFlex="30">
+                            <mat-label>Valor</mat-label>
+                            <input matInput class="valor" placeholder="valor" [value]="formataValor(contrato.valor)"
+                                disabled />
+                            <span matPrefix>R$&nbsp;</span>
+                        </mat-form-field>
+                    </div>
+
+                    <div fxLayout="row" fxLayoutGap="10px">
+                        <mat-form-field fxFlex="50">
+                            <mat-label>Contratante</mat-label>
+                            <input type="text" matInput placeholder="Contratante" id="contratante"
+                                [value]="contrato.contratante" disabled />
+                        </mat-form-field>
+                        <mat-form-field fxFlex="50">
+                            <mat-label>Contratado</mat-label>
+                            <input type="text" matInput placeholder="Contratado" id="contratado"
+                                [value]="contrato.contratado" disabled />
+                        </mat-form-field>
+                    </div>
+
+                    <mat-form-field>
+                        <mat-label>Observação</mat-label>
+                             <textarea
+                            matInput
+                            cdkTextareaAutosize
+                            #autosize="cdkTextareaAutosize"
+                            cdkAutosizeMinRows="1"
+                            cdkAutosizeMaxRows="6"
+                            maxlength="500"
+                            placeholder="Observação"
+                            [value]="contrato.observacao" disabled
+                            id="observacao">
+                        </textarea>                 
+                    </mat-form-field>
+                </div>
+
+                <div fxLayout="row" fxLayoutGap="10px">
+                    <mat-form-field fxFlex="25">
+                        <mat-label>Vigência</mat-label>
+                        <input type="text" matInput placeholder="Vigência"
+                            [value]="contrato.vigencia ? contrato.vigencia  == 'D' ? 'Determinada' : 'Indeterminada' : ''"
+                            disabled />
+                    </mat-form-field>
+                    <mat-form-field fxFlex="25">
+                        <mat-label>Prorrogação automática</mat-label>
+                        <input type="text" matInput placeholder="Vigência"
+                            [value]="contrato.prorrogacaoAutomatica ? contrato.prorrogacaoAutomatica  == 'S' ? 'Sim' : 'Não' : ''"
+                            disabled />
+                    </mat-form-field>
+                    <mat-form-field fxFlex="25">
+                        <mat-label>Data de início</mat-label>
+                        <input matInput id="competenciaInicial" [value]="contrato.dataInicio | date: 'dd/MM/yyyy'"
+                            disabled />
+                    </mat-form-field>
+                    <mat-form-field fxFlex="25">
+                        <mat-label>Data de término</mat-label>
+                        <input matInput id="competenciaFinal" [value]="contrato.dataTermino | date: 'dd/MM/yyyy'"
+                            disabled />
+                    </mat-form-field>
+                </div>
+
+                <div fxLayout="row" fxLayoutGap="10px">
+                    <mat-form-field fxFlex="25">
+                        <mat-label>Possui índice de reajuste?</mat-label>
+                        <input type="text" matInput placeholder="Vigência"
+                            [value]="contrato.indiceReajuste == 'S' ? 'Sim' : 'Não'" disabled />
+                    </mat-form-field>
+                    <mat-form-field fxFlex="25">
+                        <mat-label>Competência do reajuste</mat-label>
+                        <input type="text" matInput placeholder="Competência"
+                            [value]="mesCompetencia != null ? mesCompetencia.descricao : ''" disabled />
+                    </mat-form-field>
+                    <mat-form-field fxFlex="25">
+                        <mat-label>Índice</mat-label>
+                        <input matInput id="indice" [value]="contrato.indiceCorrecao" disabled />
+                    </mat-form-field>
+                    <mat-form-field fxFlex="25">
+                        <mat-label>Outro</mat-label>
+                        <input matInput placeholder="Informe o índice" [value]="contrato.indiceOutro" disabled />
+                    </mat-form-field>
+                </div>
+
+            </mat-tab>
+            <mat-tab label="Comprovantes">
+                <div fxLayout="column" fxLayoutGap="10px">
+                    <div fxFlex>
+                      <mat-list>
+                        <mat-list-item *ngFor="let row of documentos" fxFlexFill class="documentos">
+                          <div matLine fxLayout="column" fxLayoutGap="10px">
+                            <div fxFlex="30"><span class="mat-h4">Tipo: </span>{{ row.tipo.descricao }}</div>
+                            <div fxFlex><span class="mat-h4">Arquivo: </span>{{ row.nomeArquivo }}</div>
+                            <div fxFlex="25"><span class="mat-h4">Data Upload: </span>{{ row.dataUpload | date: 'dd/MM/yyyy HH:mm:ss' }}</div>
+                          </div>
+                          <button mat-icon-button (click)="onDownload(row)" *ngIf="row.idDocumento !== null" matTooltip="Download Documento"><mat-icon>get_app</mat-icon></button>
+                          <mat-progress-bar matLine [mode]="mode" [value]="row.progress" *ngIf="row.progress > 0"></mat-progress-bar>
+                        </mat-list-item>
+                      </mat-list>
+                    </div>
+                </div>              
+            </mat-tab>
+            <mat-tab label="Análise">
+                <div fxLayout="column" fxLayoutAlign="space-between" fxLayoutGap="2px">
+                    <div fxLayout="row">
+                        <mat-form-field>
+                            <mat-label>Motivo de glosa</mat-label>
+                            <input matInput style="display: none!important">
+                            <mat-selection-list  id="motivoGlosa" style="padding-top: 20px;" disabled>
+                                <mat-list-option *ngFor="let motivo of listaMotivosGlosa" [value]="motivo" [selected]="motivo.marcado">
+                                    {{ motivo.descricao }}
+                                </mat-list-option>
+                            </mat-selection-list>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div fxLayout="row">
+                    <mat-form-field>
+                        <mat-label>Observação para o interino</mat-label>
+                        <textarea
+                            matInput
+                            cdkTextareaAutosize
+                            #autosize="cdkTextareaAutosize"
+                            cdkAutosizeMinRows="1"
+                            cdkAutosizeMaxRows="6"
+                            maxlength="500"
+                            placeholder="Observação"
+                            [value]="contrato.observacaoAnalise" disabled
+                            id="observacaoAnalise">
+                        </textarea>
+                    </mat-form-field>
+                </div>
+            </mat-tab>
+        </mat-tab-group>
+    </div>
+
+    <mat-dialog-actions fxLayoutAlign="end start">
+        <button mat-stroked-button color="primary" (click)="fechar()" id="cancelar">Fechar</button>
+    </mat-dialog-actions>
+    <ngx-ui-loader [loaderId]="'loaderContratoVisualizacao'"></ngx-ui-loader>
+</mat-dialog-content>

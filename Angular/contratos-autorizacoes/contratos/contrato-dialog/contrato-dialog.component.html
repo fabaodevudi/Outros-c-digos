@@ -1,0 +1,305 @@
+<h2 mat-dialog-title>
+  {{ isEdicao() && !isAditivo ? "Editar Contrato" : isAditivo ? "Aditivar Contrato" : "Novo Contrato" }}</h2>
+<mat-dialog-content>
+  <mat-horizontal-stepper labelPosition="bottom" linear="true" #stepper>
+    <div fxLayout="column" fxLayoutAlign="space-between">
+      <mat-step [stepControl]="formContrato">
+        <div class="step-content">
+          <form [formGroup]="formContrato" id="formContrato">
+            <ng-template matStepLabel>Detalhes</ng-template>
+            <div fxLayout="column" fxLayoutAlign="space-between start">
+              <mat-form-field>
+                <mat-label>{{ nomeGrupo }}</mat-label>
+                <mat-select placeholder="Grupo" formControlName="grupo" id="grupo" [disabled]="isEdicao()">
+                  <mat-option *ngFor="let grp of grupos" [value]="grp">
+                    {{ grp.descricao }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+              <mat-form-field>
+                <mat-label>{{ nomeSubgrupo }}</mat-label>
+                <mat-select placeholder="Subgrupo" formControlName="subgrupo" id="subgrupo" [disabled]="isEdicao()">
+                  <mat-option *ngFor="let sg of subgrupos" [value]="sg">
+                    {{ sg.descricao }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+              <mat-form-field>
+                <mat-label>{{ nomeDespesa }}</mat-label>
+                <mat-select placeholder="Despesa" formControlName="despesa" id="despesa" [disabled]="isEdicao()">
+                  <mat-option *ngFor="let des of despesas" [value]="des">
+                    {{ des.descricao }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <div fxLayout="column" fxLayoutAlign="space-between">
+              <div fxLayout="row" fxLayoutGap="10px">
+                <mat-form-field fxFlex="70">
+                  <mat-label>Identificador</mat-label>
+                  <input matInput placeholder="Identificador" formControlName="identificador" id="identificador"
+                    maxlength="200" [readonly]="isEdicao()" [disabled]="isEdicao()"  />
+                </mat-form-field>
+                <mat-form-field fxFlex="30">
+                  <mat-label>Valor</mat-label>
+                  <input matInput class="valor" maxlength=22 placeholder="Valor" formControlName="valor" id="valor"
+                    onkeypress="return (event.charCode >= 48 && event.charCode <= 57) || (event.charCode == 44 || event.charCode == 46)"
+                    (change)="onValorChange($event.target.value)" />
+                  <span matPrefix>R$&nbsp;</span>
+                </mat-form-field>
+              </div>
+            </div>
+            <div fxLayout="column" fxLayoutAlign="space-between">
+              <div fxLayout="row">
+                <mat-form-field>
+                  <mat-label>Contratante</mat-label>
+                  <input type="text" matInput placeholder="Contratante" formControlName="contratante" id="contratante"
+                    maxlength="200" />
+                </mat-form-field>
+              </div>
+              <div fxLayout="row">
+                <mat-form-field>
+                  <mat-label>Contratado</mat-label>
+                  <input type="text" matInput placeholder="Contratado" formControlName="contratado" id="contratado"
+                    maxlength="200" />
+                </mat-form-field>
+              </div>
+              <div fxLayout="row">
+                <mat-form-field>
+                  <mat-label>Observação</mat-label>
+                  <textarea
+                    matInput
+                    cdkTextareaAutosize
+                    #autosize="cdkTextareaAutosize"
+                    cdkAutosizeMinRows="1"
+                    cdkAutosizeMaxRows="5"
+                    maxlength="500"
+                    placeholder="Observação"
+                    formControlName="observacao"                    
+                    id="observacao">
+                  </textarea>
+                </mat-form-field>
+              </div>              
+            </div>
+          </form>
+        </div>
+        <mat-dialog-actions fxLayoutAlign="end start">
+          <button mat-stroked-button color="primary" (click)="cancelar()">Cancelar</button>
+          <button mat-stroked-button color="primary" matStepperNext [disabled]="formContrato.invalid"> Próximo</button>
+        </mat-dialog-actions>
+      </mat-step>
+      <mat-step [stepControl]="formVigencia" [completed]="isCompleteVigencia()">
+        <div class="step-content">
+          <form [formGroup]="formVigencia" id="formVigencia">
+            <ng-template matStepLabel>Vigência e Reajuste</ng-template>
+            <div fxLayout="column" fxLayoutAlign="space-between">
+              <div fxLayout="row" fxLayoutGap="2px">
+                <mat-form-field floatLabel="always" color="primary" appearance="outline" fxFlex="50">
+                  <input matInput style="display: none!important">
+                  <mat-label>Vigência</mat-label>
+                  <mat-radio-group formControlName="vigencia" placeholder="vigencia" fxLayoutGap="15px"
+                    (change)="onVigenciaChange()">
+                    <mat-radio-button color="primary" value="D">Determinada</mat-radio-button>
+                    <mat-radio-button color="primary" value="I">Indeterminada</mat-radio-button>
+                  </mat-radio-group>
+                </mat-form-field>
+                <mat-form-field floatLabel="always" color="primary" appearance="outline" fxFlex="50">
+                  <mat-label>Possui cláusula de prorrogação automática?</mat-label>
+                  <input matInput style="display: none!important">
+                  <mat-radio-group formControlName="prorrogacaoAutomatica" placeholder="prorrogacaoAutomatica"
+                    fxLayoutGap="15px"
+                    [disabled]="isVigenciaIndeterminada()">
+                    <mat-radio-button color="primary" value="S">Sim</mat-radio-button>
+                    <mat-radio-button color="primary" value="N">Não</mat-radio-button>
+                  </mat-radio-group>
+                </mat-form-field>
+              </div>
+            </div>
+            <div fxLayout="column" fxLayoutAlign="space-between">
+              <div fxLayout="row" fxLayoutGap="10px">
+                <mat-form-field floatLabel="always" color="primary" fxFlex="50">
+                  <mat-label>Data de início</mat-label>
+                  <input matInput [matDatepicker]="dp1" formControlName="dataInicio" id="competenciaInicial">
+                  <mat-datepicker-toggle matSuffix [for]="dp1"></mat-datepicker-toggle>
+                  <mat-datepicker #dp1>
+                  </mat-datepicker>
+                </mat-form-field>
+                <mat-form-field floatLabel="always" color="primary" fxFlex="50">
+                  <mat-label>Data de término</mat-label>
+                  <input matInput [matDatepicker]="dp2" formControlName="dataTermino" id="competenciaFinal"
+                    [disabled]="isVigenciaIndeterminada()">
+                  <mat-datepicker-toggle matSuffix [for]="dp2"></mat-datepicker-toggle>
+                  <mat-datepicker #dp2>
+                  </mat-datepicker>
+                </mat-form-field>
+              </div>
+            </div>
+            <div fxLayout="column" fxLayoutAlign="space-between">
+              <div class="row" fxLayoutGap="2px">
+                <mat-form-field floatLabel="always" color="primary" appearance="outline" fxFlex="50">
+                  <mat-label>Possui índice de reajuste?</mat-label>
+                  <input matInput style="display: none!important">
+                  <mat-radio-group formControlName="indiceReajuste" placeholder="indiceReajuste" fxLayoutGap="15px"
+                    (change)="onIndiceReajuste()">
+                    <mat-radio-button color="primary" value="S">Sim</mat-radio-button>
+                    <mat-radio-button color="primary" value="N">Não</mat-radio-button>
+                  </mat-radio-group>
+                </mat-form-field>
+                <mat-form-field floatLabel="always" color="primary" fxFlex="50" appearance="outline">
+                  <mat-label>Competência do reajuste</mat-label>
+                  <mat-select placeholder="Competência do reajuste" formControlName="competenciaCorrecao"
+                    id="competenciaCorrecao"
+                    [disabled]="isNotIndiceReajuste()">
+                    <mat-option *ngFor="let mes of meses" [value]="mes.id">{{mes.descricao}}</mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+            </div>
+            <div fxLayout="column" fxLayoutAlign="space-between">
+              <div fxLayout="row">
+                <mat-form-field floatLabel="always" color="primary">
+                  <mat-label>Índice</mat-label>
+                  <mat-select formControlName="indiceCorrecao" multiple (selectionChange)="onIndiceCorrecaoChange()"
+                    [disabled]="isNotIndiceReajuste()">
+                    <mat-option *ngFor="let indice of indices" [value]="indice.nome">{{indice.nome}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+              <div fxLayout="row">
+                <mat-form-field floatLabel="always" color="primary">
+                  <mat-label>Outro</mat-label>
+                  <input matInput placeholder="Informe o índice" formControlName="indiceOutro" [readonly]="isDisabledOutro()" />
+                </mat-form-field>
+              </div>
+            </div>
+          </form>
+        </div>
+        <mat-dialog-actions fxLayoutAlign="end start">
+          <button mat-stroked-button color="primary" (click)="cancelar()">Cancelar</button>
+          <button mat-stroked-button color="primary" matStepperPrevious>Anterior</button>
+          <button mat-stroked-button color="primary" matStepperNext [disabled]="!isCompleteVigencia()">Próximo</button>
+        </mat-dialog-actions>
+      </mat-step>
+
+      <mat-step [stepControl]="formDocumento" [completed]="isCompleteDocs()">
+        <div class="step-content">
+          <ng-template matStepLabel>Comprovante</ng-template>
+          <div fxFlex fxLayoutAlign="space-between">
+            <app-upload-documentos fxFlex [tipo]="'C'" [idRegistro]="contrato.id" [isAditivo]="isAditivo"
+              (documentosUpdated)="setDocumentos($event)"></app-upload-documentos>
+          </div>
+        </div>
+
+        <mat-dialog-actions fxLayoutAlign="end start">
+          <button mat-stroked-button color="primary" (click)="cancelar()">Cancelar</button>
+          <button mat-stroked-button color="primary" matStepperPrevious>Anterior</button>
+          <button mat-stroked-button color="primary" matStepperNext [disabled]="!isCompleteDocs()">Próximo</button>
+        </mat-dialog-actions>
+      </mat-step>
+
+      <mat-step [stepControl]="formConfirmacao">
+        <div class="step-content">
+
+          <ng-template matStepLabel>Confirmação</ng-template>
+          <div fxLayout="row" >
+            <div fxLayout="column" fxFlex="50">
+              <p><b>Grupo: </b> {{ formContrato.value.grupo ? formContrato.value.grupo.descricao : ''}}</p>
+            </div>
+            <div fxLayout="column" fxFlex="50">
+              <p><b>Subgrupo: </b>{{ formContrato.value.subgrupo ? formContrato.value.subgrupo.descricao : '' }}</p>
+            </div>
+          </div>
+          <div fxLayout="row" >
+            <div fxLayout="column" fxFlex="50">
+              <p><b>Despesa: </b>{{ formContrato.value.despesa ? formContrato.value.despesa.descricao : '' }}</p>
+            </div>
+            <div fxLayout="column" fxFlex="50">
+              <p><b>Identificador: </b>{{ formContrato.get('identificador').value ? formContrato.get('identificador').value : ''}}</p>
+            </div>
+          </div>         
+          <div fxLayout="row" fxLayoutAlign="space-between">
+            <div fxLayout="column">
+              <p><b>Contratante: </b>{{ formContrato.value.contratante ? formContrato.value.contratante : ''}}</p>
+            </div>           
+          </div>
+          <div fxLayout="row" fxLayoutAlign="space-between">
+            <div fxLayout="column">
+              <p><b>Contratado: </b>{{ formContrato.value.contratado ? formContrato.value.contratado : '' }}</p>
+            </div>
+          </div>
+          <div fxLayout="row" fxLayoutAlign="space-between">
+            <div fxLayout="column" fxFlex="50">
+              <p><b>Vigência:
+                </b>{{ formVigencia.value.vigencia ? formVigencia.value.vigencia  == 'D' ? 'Determinada' : 'Indeterminada' : ''}}
+              </p>
+            </div>
+            <div fxLayout="column" fxFlex="50">
+              <p><b>Prorrogação automática:
+                </b>{{ formVigencia.value.prorrogacaoAutomatica ? formVigencia.value.prorrogacaoAutomatica  == 'S' ? 'Sim' : 'Não' : ''}}
+              </p>
+            </div>
+          </div>
+          <div fxLayout="row" fxLayoutAlign="space-between">
+            <div fxLayout="column" fxFlex="50">
+              <p><b>Data início: </b>{{ formVigencia.value.dataInicio | date: 'dd/MM/yyyy'}}</p>
+            </div>
+            <div fxLayout="column" fxFlex="50">
+              <p><b>Data término: </b>{{ formVigencia.value.dataTermino | date: 'dd/MM/yyyy'}}</p>
+            </div>
+          </div>
+
+          <div fxLayout="row"  fxLayoutGap="2px">
+            <div fxLayout="column" fxFlex="50">
+              <p><b>Índice reajuste: </b>
+                {{ formVigencia.value.indiceReajuste ?  formVigencia.value.indiceReajuste == 'S' ? 'Sim' : 'Não' : ''}}
+              </p>
+            </div>
+            <div fxLayout="column" fxFlex="50">
+              <p><b>Valor: </b>R$ {{ formContrato.value.valor }}</p>
+            </div>
+          </div>
+
+          <div fxLayout="row">
+            <div fxLayout="column" fxFlex>
+              <p><b>Observação: </b></p>
+              <textarea
+                  matInput
+                  cdkTextareaAutosize
+                  readonly
+                  #autosize="cdkTextareaAutosize"                  
+                  maxlength="500"
+                  placeholder="Observação"
+                  [value]="formContrato.value.observacao"
+                  style="overflow: hidden;"
+                  id="observacaoConfirmacao">
+                </textarea>
+            </div>
+          </div>   
+
+          <div fxLayout="column" >    
+            <div fxLayout="row" >
+              <p><b>Comprovantes: </b></p>
+            </div>
+            <div  fxFlex>
+              <mat-list>
+                <mat-list-item *ngFor="let doc of documentos" fxFlexFill>
+                  <b>{{ doc.tipo.descricao }} </b>{{ ': ' + doc.nomeArquivo }}
+                  ({{ doc.adicionar === undefined ? 'sem alteração' : (doc.adicionar ? 'adição' : 'exclusão')}})
+                </mat-list-item>
+              </mat-list>
+            </div>    
+          </div>
+        </div>
+
+        <mat-dialog-actions fxLayoutAlign="end start">
+          <button mat-stroked-button color="primary" (click)="cancelar()">Cancelar</button>
+          <button mat-stroked-button color="primary" matStepperPrevious>Anterior</button>
+          <button mat-stroked-button color="primary" (click)="salvar()"
+            [disabled]="!isCompleteDocs() || !isCompleteVigencia() || formContrato.invalid">Salvar</button>
+        </mat-dialog-actions>
+      </mat-step>
+    </div>
+  </mat-horizontal-stepper>
+  <ngx-ui-loader [loaderId]="'loaderContrato'"></ngx-ui-loader>
+</mat-dialog-content>

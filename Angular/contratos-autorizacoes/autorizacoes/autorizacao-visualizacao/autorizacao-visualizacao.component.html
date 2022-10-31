@@ -1,0 +1,133 @@
+<h2 mat-dialog-title>Detalhes da Autorização</h2>
+<mat-divider></mat-divider>
+<mat-dialog-content>
+    <div class="step-content">
+        <mat-tab-group mat-stretch-tabs>
+            <mat-tab label="Autorização" style="padding-top: 10px">
+                <div fxLayout="column" fxLayoutAlign="space-between" style="padding-top: 10px">
+                    <div fxLayout="row">
+                        <mat-form-field>
+                            <mat-label>Situação</mat-label>
+                            <input matInput placeholder="situacao" [value]="autorizacao.situacao" disabled />
+                        </mat-form-field>                        
+                    </div>
+                    <div fxLayout="row">
+                        <mat-form-field>
+                            <mat-label>Grupo</mat-label>
+                            <input matInput id="grupo" [value]="grupo" disabled />
+                        </mat-form-field>
+                    </div>
+                    <div fxLayout="row">
+                        <mat-form-field>
+                            <mat-label>Subgrupo</mat-label>
+                            <input matInput id="subgrupo" [value]="subgrupo" disabled />
+                        </mat-form-field>
+                    </div>
+                    <div fxLayout="row">
+                        <mat-form-field>
+                            <mat-label>Despesa</mat-label>
+                            <input matInput id="despesa" [value]="despesa" disabled />
+                        </mat-form-field>
+                    </div>
+                              
+                    <div fxLayout="row">
+                        <mat-form-field>
+                            <mat-label>Identificador</mat-label>
+                            <input matInput placeholder="Identificador" [value]="autorizacao.identificador" disabled />
+                        </mat-form-field>                        
+                    </div>
+                    <div fxLayout="row">
+                        <mat-form-field>
+                            <mat-label>Observação</mat-label>
+                                <textarea
+                                matInput
+                                cdkTextareaAutosize
+                                #autosize="cdkTextareaAutosize"
+                                cdkAutosizeMinRows="1"
+                                cdkAutosizeMaxRows="6"
+                                maxlength="500"
+                                placeholder="Observação"
+                                [value]="autorizacao.observacao" disabled
+                                id="observacao">
+                                </textarea>
+                        </mat-form-field>                        
+                    </div>
+                </div>               
+                <div fxLayout="row">
+                    <mat-form-field>
+                        <mat-label>Data de início</mat-label>
+                        <input matInput id="competenciaInicial" [value]="autorizacao.dataInicio | date: 'dd/MM/yyyy'" disabled />
+                    </mat-form-field>                       
+                </div>
+            </mat-tab>
+            <mat-tab label="Comprovantes">
+                <div fxLayout="column" fxLayoutGap="10px">
+                    <div fxFlex>
+                      <mat-list>
+                        <mat-list-item *ngFor="let row of documentos" fxFlexFill class="documentos">
+                          <div matLine fxLayout="column" fxLayoutGap="10px">
+                            <div fxFlex="30"><span class="mat-h4">Tipo: </span>{{ row.tipo.descricao }}</div>
+                            <div fxFlex><span class="mat-h4">Arquivo: </span>{{ row.nomeArquivo }}</div>
+                            <div fxFlex="25"><span class="mat-h4">Data Upload: </span>{{ row.dataUpload | date: 'dd/MM/yyyy HH:mm:ss' }}</div>
+                          </div>
+                          <button mat-icon-button (click)="onDownload(row)" *ngIf="row.idDocumento !== null" matTooltip="Download Documento"><mat-icon>get_app</mat-icon></button>
+                          <mat-progress-bar matLine [mode]="mode" [value]="row.progress" *ngIf="row.progress > 0"></mat-progress-bar>
+                        </mat-list-item>
+                      </mat-list>
+                    </div>
+                </div> 
+            </mat-tab>
+            <mat-tab label="Análise">
+                <div fxLayout="column" fxLayoutAlign="space-between" fxLayoutGap="10px">
+                    <div fxLayout="row">
+                        <mat-form-field>
+                            <mat-label>Motivo de glosa</mat-label>
+                            <input matInput style="display: none!important">
+                            <mat-selection-list id="motivoGlosa" style="padding-top: 20px;" disabled>
+                              <mat-list-option *ngFor="let motivo of listaMotivosGlosa" [value]="motivo" [selected]="motivo.marcado">
+                                  {{ motivo.descricao }}
+                              </mat-list-option>
+                            </mat-selection-list>
+                          </mat-form-field>
+                    </div> 
+                </div>                                  
+            
+                <div fxLayout="row">
+                    <mat-form-field >
+                        <mat-label>Observação para o interino</mat-label>
+                        <textarea
+                        matInput
+                        cdkTextareaAutosize
+                        #autosize="cdkTextareaAutosize"
+                        cdkAutosizeMinRows="1"
+                        cdkAutosizeMaxRows="6"
+                        maxlength="500"
+                        placeholder="Observação"
+                        [value]="autorizacao.observacaoAnalise" disabled
+                        id="observacao">
+                    </textarea>
+                   </mat-form-field>
+                </div> 
+                
+                <div fxLayout="row">
+                    <mat-form-field>
+                        <mat-label>Vigente</mat-label>
+                        <input type="text" matInput placeholder="Vigente" [value]="autorizacao.vigente" disabled />
+                    </mat-form-field>                        
+                </div>
+
+                <div fxLayout="row">
+                    <mat-form-field>
+                        <mat-label>Vigente até</mat-label>
+                        <input matInput id="dataTermino" [value]="autorizacao.dataTermino | date: 'dd/MM/yyyy'" disabled />
+                    </mat-form-field>                        
+                </div>
+            </mat-tab>
+        </mat-tab-group>
+    </div>
+
+    <mat-dialog-actions fxLayoutAlign="end start">
+        <button mat-stroked-button color="primary" (click)="fechar()" id="cancelar">Fechar</button>
+    </mat-dialog-actions>
+    <ngx-ui-loader [loaderId]="'loaderAutorizacaoVisualizacao'"></ngx-ui-loader>
+</mat-dialog-content>

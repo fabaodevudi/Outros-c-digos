@@ -1,0 +1,104 @@
+ 
+ <mat-accordion multi="true" *ngIf="serventia !== undefined && serventia !== null">
+  <div fxLayout="column" fxLayoutGap="5px">
+    <div fxLayoutAlign="center">
+      <div class="grid-container" fxLayout="column" >
+        <mat-card>    
+          <mat-card-content>
+            <form [formGroup]="form" id="formfiltroContratos">
+              <div fxLayout="row"  fxLayoutGap="15px">                
+                  <mat-form-field fxFlex="40">
+                    <mat-label>Identificador</mat-label>
+                    <input type="text" matInput placeholder="Identificador" formControlName="identificador" id="identificador" maxlength="200" />
+                  </mat-form-field>               
+                  <mat-form-field appearance="outline" color="primary" fxFlex="25">
+                    <mat-label>Data Término</mat-label>                    
+                    <input matInput [matDatepicker]="dp1" formControlName="dataInicio" id="dataInicio">
+                    <mat-datepicker-toggle matSuffix [for]="dp1"></mat-datepicker-toggle>
+                    <mat-datepicker #dp1></mat-datepicker>
+                  </mat-form-field>    
+                  <div style="padding-top: 20px;padding-bottom: 20px;padding-left: 10px;padding-right: 10px">                   
+                    <label>Até</label>
+                  </div>                 
+                  <mat-form-field appearance="outline" color="primary" fxFlex="25">
+                    <mat-label>Data Término</mat-label>
+                    <input matInput [matDatepicker]="dp2" formControlName="dataTermino" id="dataTermino">
+                    <mat-datepicker-toggle matSuffix [for]="dp2"></mat-datepicker-toggle>
+                    <mat-datepicker #dp2></mat-datepicker>
+                  </mat-form-field>
+             </div>
+              <div fxLayout="row"  fxLayoutGap="15px">  
+                  <mat-form-field fxFlex="50">
+                    <mat-label>Contratante</mat-label>
+                    <input type="text" matInput placeholder="Contratante" formControlName="contratante" id="contratante"/>
+                  </mat-form-field>
+                  <mat-form-field fxFlex="50">
+                    <mat-label>Contratado</mat-label>
+                    <input type="text" matInput placeholder="Contratado" formControlName="contratado" id="contratado"/>             
+                  </mat-form-field>             
+              </div>              
+            </form> 
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </div>
+  </div>
+  <mat-expansion-panel *ngFor="let grp of grupos">
+    <mat-expansion-panel-header>
+      <mat-panel-title fxLayout="row" fxLayoutAlign="space-between center">
+        <h4>{{ grp.descricao }}</h4>          
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+    <mat-expansion-panel *ngFor="let sub of grp.subgrupo">
+      <mat-expansion-panel-header>
+        <mat-panel-title fxLayout="row" fxLayoutAlign="space-between center">
+          <h4>{{ sub.descricao }}</h4>           
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <mat-expansion-panel *ngFor="let despesa of sub.despesas">
+        <mat-expansion-panel-header>
+          <mat-panel-title fxLayout="row" fxLayoutAlign="space-between center">
+            <h4>{{ despesa.descricao }}</h4>           
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <ng-container *ngFor="let contrato of despesa.contratos">
+          <div class="contratante" fxLayout="row" fxLayoutAlign="end center">
+            <div fxFlex>{{ contrato.contratado }}</div>
+            <button mat-stroked-button class="sit-button"  id="aditivarContrato" (click)="aditivar(contrato,grp,sub,despesa)" style="padding-left: 20px;">
+             Incluir Aditivo
+            </button>
+           
+            <ng-container *ngIf="contrato.isEditable">
+              <button mat-icon-button  id="editarContrato" style="padding-left: 20px;">
+                <mat-icon matTooltip="Alterar Contrato" (click)="editar(contrato,grp,sub,despesa)">edit</mat-icon>
+              </button>
+            </ng-container>
+            
+            <ng-container *ngIf="contrato.isRemovible">
+              <button mat-icon-button  id="deletarContrato" (click)="deletar(contrato)" style="padding-left: 20px;">
+                <mat-icon matTooltip="Excluir Contrato">delete</mat-icon>
+              </button>
+            </ng-container>
+           
+            <button
+              mat-icon-button
+              id="visualizarContrato" style="padding-left: 20px;">
+              <mat-icon fontSet="material-icons-outlined" matTooltip="Visualizar Contrato" (click)="visualizar(contrato,grp,sub,despesa)"> info</mat-icon>
+            </button>
+            <mat-form-field style="padding-left: 20px;">
+              <input class="valor" matInput value="{{ contrato.valor | currency: 'BRL' }}" readonly />
+            </mat-form-field>              
+          </div>
+        </ng-container>        
+      </mat-expansion-panel>          
+    </mat-expansion-panel>
+  </mat-expansion-panel>
+  <div *ngIf="grupos.length == 0">   
+    <p>Nenhum contrato encontrado!</p>
+  </div>  
+  <div class="add-contrato" fxLayoutAlign="end start">
+    <button mat-stroked-button color="primary" (click)="adicionar()" id="novoContrato"><mat-icon>add</mat-icon> Novo Contrato</button>
+  </div>
+  <ngx-ui-loader [loaderId]="'loaderContratos'"></ngx-ui-loader>  
+</mat-accordion>
+

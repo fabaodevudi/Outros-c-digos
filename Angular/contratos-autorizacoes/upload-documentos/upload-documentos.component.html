@@ -1,0 +1,65 @@
+<mat-card>
+  <div fxLayout="column" style="text-align: center">
+    <h4 style="margin: 0; padding-bottom: 5px; padding-top: 5px; padding-left: 0px;padding-right: 0px">
+      {{ tipo == 'A' ? "Faça upload do arquivo de autorização." :  "Faça upload do arquivo de contrato."}}
+      
+    </h4>
+    <h4  style="margin: 0;">
+      {{ tipo == 'A' ? "" :  "Certifique-se de que o contrato está assinado."}}
+      
+    </h4>
+  </div>
+  <div *ngIf="getDocumentos()"> 
+    <div  fxFlex>
+      <mat-list>
+        <mat-list-item *ngFor="let row of getDocumentosVisiveis()" fxFlexFill>
+          <div matLine fxLayout="column">
+            <div fxFlex="30">
+              <span class="mat-h4">Tipo: </span>
+              <ng-container *ngIf="row.idDocumento !== null; else elseTemplate">
+                {{ row.tipo.descricao }}
+              </ng-container>
+              <ng-template #elseTemplate>
+                <mat-select placeholder="selecione o tipo..." [(value)]="row.tipo" (selectionChange)="setTipoDocumento()" [(value)]="tipoDocumentoSelecionado" [disabled]="tipo == 'C'">
+                  <mat-option *ngFor="let tp of tiposDocumento" [value]="tp">
+                    {{ tp.descricao }}
+                  </mat-option>
+                </mat-select>
+              </ng-template>
+            </div>
+            <div fxFlex><span class="mat-h4">Arquivo: </span>{{ row.nomeArquivo }}</div>
+            <div fxFlex="25" *ngIf="row.idDocumento !== null">
+              <span class="mat-h4">Data upload: </span>{{ row.dataUpload | date: 'dd/MM/yyyy HH:mm:ss' }}
+            </div>
+          </div>
+          <button mat-icon-button (click)="onDownload(row)" *ngIf="row.idDocumento !== null"><mat-icon matTooltip="Download Documento">get_app</mat-icon></button>
+          <button *ngIf="isRemovable(row)" mat-icon-button (click)="onRemove(row)"><mat-icon matTooltip="Excluir Documento">delete</mat-icon></button>   
+          <mat-progress-bar matLine [mode]="mode" [value]="row.progress" *ngIf="row.progress > 0"></mat-progress-bar>
+        </mat-list-item>
+      </mat-list>
+    </div> 
+   
+      
+    <div style="padding-top: 15px;">
+      <mat-divider></mat-divider>
+    </div>  
+  </div>
+  <div>
+  <div fxLayout="row" fxLayoutAlign="end start" fxLayoutGap="10px" class="ngx-dropzone" style="padding-top: 15px;">
+    <div fxLayout="column" fxLayoutAlign="space-around" fxLayoutGap="10px" class="ngx-dropzone">
+      <div fxLayoutAlign="center" class="ngx-dropzone">
+        <ngx-dropzone (change)="onSelect($event)" class="ngx-dropzone" [maxFileSize]="5000000"
+          [accept]="'image/jpeg,image/bmp,image,application/pdf,application'" [disabled]="!isEnabledUpload">
+          <ngx-dropzone-label>
+            Arraste os arquivos ou clique aqui para adicionar<br />
+            Extensões de arquivos permitidas: pdf, bmp e jpg.<br />
+            Tamanho máximo por arquivo 5MB.
+          </ngx-dropzone-label>
+        </ngx-dropzone>        
+      </div>
+    </div>
+  </div>
+
+  </div>
+  <ngx-ui-loader [loaderId]="'loaderDocumentos'"></ngx-ui-loader>
+</mat-card>

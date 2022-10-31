@@ -1,0 +1,24 @@
+.valor {
+    margin-right: 5px;
+    text-align: end;
+    width: 150px;
+    max-width: 150px;
+  }
+  
+  .autorizacao {
+    margin: 0px 24px 0px 0px;
+  }
+  
+  .add-autorizacao {
+    padding: 16px 8px;
+  }
+  
+  .identificador {
+    margin: 5px 24px 5px 0px;
+  }
+  
+  .grid-container {
+    width: 100%;
+    max-width: 900px;
+    margin: 15px 10px;
+  }

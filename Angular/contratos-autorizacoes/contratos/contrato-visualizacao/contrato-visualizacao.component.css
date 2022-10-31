@@ -1,0 +1,53 @@
+.mat-form-field {
+  width: 100%;  
+}
+
+.mat-dialog-content {  
+  min-height: 82vh !important;  
+}
+
+
+.mat-dialog-title {
+  margin: 0 !important; 
+}
+
+.step-content {
+  display: block; 
+  min-height: 70vh; 
+}
+
+.valor {
+  text-align: right;
+}
+
+input.valor::-webkit-outer-spin-button,
+input.valor::-webkit-inner-spin-button {
+  display: none;
+}
+
+input.valor {
+  -moz-appearance: textfield;
+}
+
+.mat-selection-list {
+  margin-left: 60px;
+}
+
+.mat-selection-list:focus, mat-list-option:focus {
+  outline-color: transparent;
+}
+
+.mat-list-option {
+  height: 30px;
+}
+
+.mat-list-item-disabled {
+  background-color: transparent;
+}
+
+.documentos {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.12)!important;
+}
+
+
+

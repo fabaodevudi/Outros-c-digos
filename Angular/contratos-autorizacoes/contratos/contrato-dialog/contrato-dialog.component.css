@@ -1,0 +1,59 @@
+.mat-form-field {
+  width: 100%;  
+}
+
+.mat-dialog-content {
+  max-height: 83vh !important;
+  min-height: 83vh !important;  
+}
+
+
+.mat-dialog-title {
+  margin: 0 !important; 
+}
+
+p {
+  display: block;
+  margin-block-start:  0.7em!important;
+  margin-block-end: 0.7em !important;
+}
+
+.step-content {
+  display: block; 
+  min-height: 61vh; 
+}
+
+.valor {
+  text-align: right;
+}
+
+input.valor::-webkit-outer-spin-button,
+input.valor::-webkit-inner-spin-button {
+  display: none;
+}
+
+input.valor {
+  -moz-appearance: textfield;
+}
+
+.mat-list {
+  width: 100% !important;
+}
+.mat-list-item-content {
+  padding: 0 !important;  
+}
+
+.mat-list-base {
+  max-height: 15vh !important;
+  min-height: 15vh !important;
+  padding: 0 !important; 
+  display: inline !important; 
+}
+
+.mat-list-item { 
+  height: 40px !important; 
+  padding: 0px !important; 
+  border-bottom: 1px solid rgba(0, 0, 0, 0.12);  
+}
+
+
