@@ -1,4 +1,4 @@
-package br.jus.tjrs.extrajudicial.selo.extratomensal.impl.repositories;
+package br.extratomensal.impl.repositories;
 
 import java.util.Collection;
 import java.util.List;
@@ -13,12 +13,12 @@ import javax.persistence.criteria.Root;
 
 import org.springframework.stereotype.Repository;
 
-import br.jus.tjrs.arch.jpa.repository.BaseJpaRepository;
-import br.jus.tjrs.extrajudicial.selo.extratomensal.api.domain.entities.Contrato;
-import br.jus.tjrs.extrajudicial.selo.extratomensal.api.domain.entities.Documento;
-import br.jus.tjrs.extrajudicial.selo.extratomensal.api.domain.entities.MotivoGlosa;
-import br.jus.tjrs.extrajudicial.selo.extratomensal.api.domain.persistence.ContratoRepository;
-import br.jus.tjrs.extrajudicial.selo.extratomensal.api.exceptions.UnknownObjectIdException;
+import br.arch.jpa.repository.BaseJpaRepository;
+import br.extratomensal.api.domain.entities.Contrato;
+import br.extratomensal.api.domain.entities.Documento;
+import br.extratomensal.api.domain.entities.MotivoGlosa;
+import br.extratomensal.api.domain.persistence.ContratoRepository;
+import br.extratomensal.api.exceptions.UnknownObjectIdException;
 
 @Repository
 public class ContratoRepositoryImpl extends BaseJpaRepository<Contrato, Long>  implements ContratoRepository {

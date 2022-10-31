@@ -1,15 +1,15 @@
-package br.jus.tjrs.extrajudicial.selo.extratomensal.application.controllers;
+package br.extratomensal.application.controllers;
 
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
-import br.jus.tjrs.extrajudicial.selo.extratomensal.api.controllers.UsuarioController;
-import br.jus.tjrs.extrajudicial.selo.extratomensal.api.domain.dto.ServentiasUsuarioPerfilDTO;
-import br.jus.tjrs.extrajudicial.selo.extratomensal.api.domain.dto.UsuarioDTO;
-import br.jus.tjrs.extrajudicial.selo.extratomensal.api.domain.dto.UsuarioPerfisDTO;
-import br.jus.tjrs.extrajudicial.selo.extratomensal.api.services.UsuarioService;
+import br.extratomensal.api.controllers.UsuarioController;
+import br.extratomensal.api.domain.dto.ServentiasUsuarioPerfilDTO;
+import br.extratomensal.api.domain.dto.UsuarioDTO;
+import br.extratomensal.api.domain.dto.UsuarioPerfisDTO;
+import br.extratomensal.api.services.UsuarioService;
 
 @Controller
 public class UsuarioControllerImpl implements UsuarioController {

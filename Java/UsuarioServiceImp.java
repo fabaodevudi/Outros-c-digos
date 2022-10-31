@@ -1,4 +1,4 @@
-package br.jus.tjrs.extrajudicial.selo.extratomensal.impl.services;
+package br.extratomensal.impl.services;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -14,26 +14,26 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import br.jus.tjrs.extrajudicial.selo.extratomensal.api.domain.dto.PerfilPortalExtrajudDTO;
-import br.jus.tjrs.extrajudicial.selo.extratomensal.api.domain.dto.ServentiaFiltroUsuarioDTO;
-import br.jus.tjrs.extrajudicial.selo.extratomensal.api.domain.dto.ServentiaPermissoesDTO;
-import br.jus.tjrs.extrajudicial.selo.extratomensal.api.domain.dto.UserInfoDTO;
-import br.jus.tjrs.extrajudicial.selo.extratomensal.api.domain.dto.UsuarioDTO;
-import br.jus.tjrs.extrajudicial.selo.extratomensal.api.domain.dto.UsuarioPerfisDTO;
-import br.jus.tjrs.extrajudicial.selo.extratomensal.api.domain.entities.PerfilPortalExtrajud;
-import br.jus.tjrs.extrajudicial.selo.extratomensal.api.domain.entities.Pessoa;
-import br.jus.tjrs.extrajudicial.selo.extratomensal.api.domain.entities.ServentiaUsuarioPerfil;
-import br.jus.tjrs.extrajudicial.selo.extratomensal.api.domain.entities.Usuario;
-import br.jus.tjrs.extrajudicial.selo.extratomensal.api.domain.entities.UsuarioPerfil;
-import br.jus.tjrs.extrajudicial.selo.extratomensal.api.domain.persistence.PessoaRepository;
-import br.jus.tjrs.extrajudicial.selo.extratomensal.api.domain.persistence.ServentiaUsuarioPerfilRepository;
-import br.jus.tjrs.extrajudicial.selo.extratomensal.api.domain.persistence.UsuarioPerfilRepository;
-import br.jus.tjrs.extrajudicial.selo.extratomensal.api.domain.persistence.UsuarioRepository;
-import br.jus.tjrs.extrajudicial.selo.extratomensal.api.exceptions.GeneralRuntimeException;
-import br.jus.tjrs.extrajudicial.selo.extratomensal.api.exceptions.InconsistenciaUsuarioException;
-import br.jus.tjrs.extrajudicial.selo.extratomensal.api.services.SecurityService;
-import br.jus.tjrs.extrajudicial.selo.extratomensal.api.services.UsuarioService;
-import br.jus.tjrs.extrajudicial.selo.extratomensal.api.services.helpers.ServicesSecurityHelper;
+import br.extratomensal.api.domain.dto.PerfilPortalExtrajudDTO;
+import br.extratomensal.api.domain.dto.ServentiaFiltroUsuarioDTO;
+import br.extratomensal.api.domain.dto.ServentiaPermissoesDTO;
+import br.extratomensal.api.domain.dto.UserInfoDTO;
+import br.extratomensal.api.domain.dto.UsuarioDTO;
+import br.extratomensal.api.domain.dto.UsuarioPerfisDTO;
+import br.extratomensal.api.domain.entities.PerfilPortalExtrajud;
+import br.extratomensal.api.domain.entities.Pessoa;
+import br.extratomensal.api.domain.entities.ServentiaUsuarioPerfil;
+import br.extratomensal.api.domain.entities.Usuario;
+import br.extratomensal.api.domain.entities.UsuarioPerfil;
+import br.extratomensal.api.domain.persistence.PessoaRepository;
+import br.extratomensal.api.domain.persistence.ServentiaUsuarioPerfilRepository;
+import br.extratomensal.api.domain.persistence.UsuarioPerfilRepository;
+import br.extratomensal.api.domain.persistence.UsuarioRepository;
+import br.extratomensal.api.exceptions.GeneralRuntimeException;
+import br.extratomensal.api.exceptions.InconsistenciaUsuarioException;
+import br.extratomensal.api.services.SecurityService;
+import br.extratomensal.api.services.UsuarioService;
+import br.extratomensal.api.services.helpers.ServicesSecurityHelper;
 import br.jus.tjrs.security.model.DefaultUserInfo;
 
 @Service

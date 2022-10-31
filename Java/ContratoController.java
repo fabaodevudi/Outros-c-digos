@@ -1,4 +1,4 @@
-package br.jus.tjrs.extrajudicial.selo.extratomensal.api.controllers;
+package br.extratomensal.api.controllers;
 
 import java.util.List;
 

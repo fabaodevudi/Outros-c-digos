@@ -1,4 +1,4 @@
-package br.jus.tjrs.extrajudicial.selo.extratomensal.application.controllers;
+package br.extratomensal.application.controllers;
 
 import java.io.IOException;
 import java.util.ArrayList;

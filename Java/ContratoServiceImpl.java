@@ -1,4 +1,4 @@
-package br.jus.tjrs.extrajudicial.selo.extratomensal.impl.services;
+package br.extratomensal.impl.services;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -17,34 +17,34 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import br.jus.tjrs.extrajudicial.selo.extratomensal.api.domain.dto.ContratoDTO;
-import br.jus.tjrs.extrajudicial.selo.extratomensal.api.domain.dto.DocumentoDTO;
-import br.jus.tjrs.extrajudicial.selo.extratomensal.api.domain.dto.FiltroContratoDTO;
-import br.jus.tjrs.extrajudicial.selo.extratomensal.api.domain.dto.IndiceCorrecaoDTO;
-import br.jus.tjrs.extrajudicial.selo.extratomensal.api.domain.dto.MotivoGlosaDTO;
-import br.jus.tjrs.extrajudicial.selo.extratomensal.api.domain.dto.NovoDocumentoDTO;
-import br.jus.tjrs.extrajudicial.selo.extratomensal.api.domain.entities.Contrato;
-import br.jus.tjrs.extrajudicial.selo.extratomensal.api.domain.entities.ContratoIndiceCorrecao;
-import br.jus.tjrs.extrajudicial.selo.extratomensal.api.domain.entities.DespesaMensal;
-import br.jus.tjrs.extrajudicial.selo.extratomensal.api.domain.entities.Documento;
-import br.jus.tjrs.extrajudicial.selo.extratomensal.api.domain.entities.GrupoDespesaMensal;
-import br.jus.tjrs.extrajudicial.selo.extratomensal.api.domain.entities.HistoricoContrato;
-import br.jus.tjrs.extrajudicial.selo.extratomensal.api.domain.entities.HistoricoContratoIndiceCorrecao;
-import br.jus.tjrs.extrajudicial.selo.extratomensal.api.domain.entities.IndiceCorrecao;
-import br.jus.tjrs.extrajudicial.selo.extratomensal.api.domain.entities.MotivoGlosa;
-import br.jus.tjrs.extrajudicial.selo.extratomensal.api.domain.entities.Usuario;
-import br.jus.tjrs.extrajudicial.selo.extratomensal.api.domain.persistence.ContratoIndiceCorrecaoRepository;
-import br.jus.tjrs.extrajudicial.selo.extratomensal.api.domain.persistence.ContratoRepository;
-import br.jus.tjrs.extrajudicial.selo.extratomensal.api.domain.persistence.DocumentoRepository;
-import br.jus.tjrs.extrajudicial.selo.extratomensal.api.domain.persistence.GrupoDespesaMensalRepository;
-import br.jus.tjrs.extrajudicial.selo.extratomensal.api.domain.persistence.HistoricoContratoIndiceCorrecaoRepository;
-import br.jus.tjrs.extrajudicial.selo.extratomensal.api.domain.persistence.HistoricoContratoRepository;
-import br.jus.tjrs.extrajudicial.selo.extratomensal.api.domain.persistence.IndiceCorrecaoRepository;
-import br.jus.tjrs.extrajudicial.selo.extratomensal.api.exceptions.GeneralRuntimeException;
-import br.jus.tjrs.extrajudicial.selo.extratomensal.api.services.ContratoService;
-import br.jus.tjrs.extrajudicial.selo.extratomensal.api.services.DocumentosService;
-import br.jus.tjrs.extrajudicial.selo.extratomensal.api.services.SecurityService;
-import br.jus.tjrs.extrajudicial.selo.extratomensal.api.services.helpers.ServicesSecurityHelper;
+import br.extratomensal.api.domain.dto.ContratoDTO;
+import br.extratomensal.api.domain.dto.DocumentoDTO;
+import br.extratomensal.api.domain.dto.FiltroContratoDTO;
+import br.extratomensal.api.domain.dto.IndiceCorrecaoDTO;
+import br.extratomensal.api.domain.dto.MotivoGlosaDTO;
+import br.extratomensal.api.domain.dto.NovoDocumentoDTO;
+import br.extratomensal.api.domain.entities.Contrato;
+import br.extratomensal.api.domain.entities.ContratoIndiceCorrecao;
+import br.extratomensal.api.domain.entities.DespesaMensal;
+import br.extratomensal.api.domain.entities.Documento;
+import br.extratomensal.api.domain.entities.GrupoDespesaMensal;
+import br.extratomensal.api.domain.entities.HistoricoContrato;
+import br.extratomensal.api.domain.entities.HistoricoContratoIndiceCorrecao;
+import br.extratomensal.api.domain.entities.IndiceCorrecao;
+import br.extratomensal.api.domain.entities.MotivoGlosa;
+import br.extratomensal.api.domain.entities.Usuario;
+import br.extratomensal.api.domain.persistence.ContratoIndiceCorrecaoRepository;
+import br.extratomensal.api.domain.persistence.ContratoRepository;
+import br.extratomensal.api.domain.persistence.DocumentoRepository;
+import br.extratomensal.api.domain.persistence.GrupoDespesaMensalRepository;
+import br.extratomensal.api.domain.persistence.HistoricoContratoIndiceCorrecaoRepository;
+import br.extratomensal.api.domain.persistence.HistoricoContratoRepository;
+import br.extratomensal.api.domain.persistence.IndiceCorrecaoRepository;
+import br.extratomensal.api.exceptions.GeneralRuntimeException;
+import br.extratomensal.api.services.ContratoService;
+import br.extratomensal.api.services.DocumentosService;
+import br.extratomensal.api.services.SecurityService;
+import br.extratomensal.api.services.helpers.ServicesSecurityHelper;
 
 @Service
 public class ContratoServiceImpl implements ContratoService {	

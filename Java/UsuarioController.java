@@ -1,4 +1,4 @@
-package br.jus.tjrs.extrajudicial.selo.extratomensal.api.controllers;
+package br.extratomensal.api.controllers;
 
 import java.util.List;
 
@@ -11,9 +11,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.jus.tjrs.extrajudicial.selo.extratomensal.api.domain.dto.ServentiasUsuarioPerfilDTO;
-import br.jus.tjrs.extrajudicial.selo.extratomensal.api.domain.dto.UsuarioDTO;
-import br.jus.tjrs.extrajudicial.selo.extratomensal.api.domain.dto.UsuarioPerfisDTO;
+import br.extratomensal.api.domain.dto.ServentiasUsuarioPerfilDTO;
+import br.extratomensal.api.domain.dto.UsuarioDTO;
+import br.extratomensal.api.domain.dto.UsuarioPerfisDTO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
